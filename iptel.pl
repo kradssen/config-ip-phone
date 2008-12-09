@@ -1,10 +1,18 @@
 #!/usr/bin/perl
 #
+#Version 0.1.1 by Carlos Corvera - Kradssen copyright
+#
 # This script performs the password change of a IP phone, using as input parameters:
 #The username
 #The new password
 #The IP phone.
-#
+#The IP Domain
+#Route of the file user.conf 
+#user.conf the file containing the form:
+#[ipphone]
+#user = <nameuser>
+#password1 = <passwrod1>
+#password2 = <password2>
 
 #Compulsive module loading
 use strict;
@@ -14,14 +22,15 @@ use Getopt::Std;
 use Config::Simple;
 
 #Our main options:
-our($opt_i);
+our($opt_i,$opt_u,$opt_p,$opt_d,$opt_r);
 # u = User
 # p = password
 # i = ip phone.
-# 
+# d = ip domain 
+# r = route file
 
 
-getopts('i:');
+getopts('i:,u:,p:,d:,r:');
 
 # My vars
 my @out;  #my generic out
@@ -29,7 +38,7 @@ my $lineout;  #my generic line
 my @version;
 my %user_conf;   #array of config
 #import adress of the file config
-my $user_file = "/home/kradssen/Programacion/Perl/config-ip-phone/user.conf";
+my $user_file = $opt_r || "/home/kradssen/Programacion/Perl/config-ip-phone/user.conf";
 #import data form config file to array of config
 Config::Simple->import_from($user_file, \%user_conf);
 
@@ -67,27 +76,27 @@ if (@version = 'VOIP PHONE  V1.6.4.5  Aug 13 2007 15:36:17') {
 	@out = $session->cmd("show sip");
 	print "@out\n";
 	#Go change
-	#@out = $session->cmd("config voip sip server register -ip $opt_d _user $opt_u _password $opt_p _port 5060 _expiretime 60");
+	@out = $session->cmd("config voip sip server register -ip $opt_d _user $opt_u _password $opt_p _port 5060 _expiretime 60");
 	#If @out is 1, then the change was performed successfully
-	#if (@out =1) { print "the change was performed successfully"; } else { print "the change is failed"; }
+	if (@out =1) { print "the change was performed successfully"; } else { print "the change is failed"; }
 	#Save the new config
-	#$session->cmd("save");
+	$session->cmd("save");
 	#Reload ip phone
-	#$session->cmd("reload");
+	$session->cmd("reload");
 	}
   else {
 	print "The Version is old\nThen, the command to use is:\n";
 	print "Change config for the register: config SIP server -ip <domain> _user <user> _password <pass> -number <port?> _port <port> _expire <time>\n";
 	#go change
-        #@out = $session->cmd("config SIP server -ip $opt_d _user $opt_u _password $opt_p -number 5060 _port 5060 _expire 60");
+        @out = $session->cmd("config SIP server -ip $opt_d _user $opt_u _password $opt_p -number 5060 _port 5060 _expire 60");
         #If @out is 1, then the change was performed successfully
-        #if (@out =1) { print "the change was performed successfully"; } else { print "the change is failed"; }
+        if (@out =1) { print "the change was performed successfully"; } else { print "the change is failed"; }
 	#Save the new config
-        #$session->cmd("save");
+        $session->cmd("save");
 	#reload ip phone"
-	#$session->cmd("reboot");
+	$session->cmd("reboot");
 	}
 #Now close the session
-@out = $session->close;
-if(@out = 1) { print "Session closed correctly.\n"; } else { print "Warning: problem while closed session.\n";}
+#@out = $session->close;
+#if(@out = 1) { print "Session closed correctly.\n"; } else { print "Warning: problem while closed session.\n";}
 
