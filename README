@@ -1,1 +1,3 @@
-This script performs the configuration change for the registration of an IP phone to a server, receiving as parameters of the IP phone, the user
+This script performs the configuration change for the registration of an 
+IP phone to a server, receiving as parameters of the IP phone, the user
+name, password and IP Server
