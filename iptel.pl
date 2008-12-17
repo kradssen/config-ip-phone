@@ -36,10 +36,10 @@ getopts('i:,u:,p:,d:,r:');
 my @out;  #my generic out
 my $lineout;  #my generic line
 my @version;
-my %user_conf;   #array of config
+my %user_conf;   #hash of config
 #import adress of the file config
 my $user_file = $opt_r || "/home/kradssen/Programacion/Perl/config-ip-phone/user.conf";
-#import data form config file to array of config
+#import data form config file to hash of config
 Config::Simple->import_from($user_file, \%user_conf);
 
 #get de data
