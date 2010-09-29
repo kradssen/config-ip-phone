@@ -50,7 +50,7 @@ my $password2 = $user_conf{"ipphone.password2"};
 #start and open session
 my $session = Net::Telnet->new(Host=>$opt_i);
 
-#firts try to login
+#first try to login
 @out = $session->login(NAME => $username, Password => $password, Errmode => "return");
 if(@out != 1) {
         print "LOGIN FAILED in the first try\n";
