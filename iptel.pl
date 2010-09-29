@@ -42,7 +42,7 @@ my $user_file = $opt_r || "/home/kradssen/Programacion/Perl/config-ip-phone/user
 #import data form config file to hash of config
 Config::Simple->import_from($user_file, \%user_conf);
 
-#get de data
+#get of data
 my $username =  $user_conf{"ipphone.user"};
 my $password = $user_conf{"ipphone.password1"};
 my $password2 = $user_conf{"ipphone.password2"};
@@ -50,7 +50,7 @@ my $password2 = $user_conf{"ipphone.password2"};
 #start and open session
 my $session = Net::Telnet->new(Host=>$opt_i);
 
-#firs try to login
+#firts try to login
 @out = $session->login(NAME => $username, Password => $password, Errmode => "return");
 if(@out != 1) {
         print "LOGIN FAILED in the first try\n";
